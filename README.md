@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HH Tracker
 
-## Getting Started
+Личный трекер откликов на вакансии (в первую очередь [hh.ru](https://hh.ru)): список, статусы, заметки и дашборд со статистикой.
 
-First, run the development server:
+Данные хранятся локально; вакансии можно добавлять вручную, по ссылке или через CSV.
+
+## Возможности
+
+- Дашборд: KPI и графики (Recharts)
+- Список откликов с поиском и фильтрами (статус, компания, даты)
+- Карточка отклика: правка статуса, даты, заметок, удаление
+- Добавление: вручную, по ссылке `hh.ru/vacancy/{id}`, импорт CSV
+- Темы: светлая / тёмная / системная
+- **«Войти в демо»** на логине — сразу дашборд с 74 тестовыми откликами
+- **«Загрузить демо»** на дашборде — перезаписывает текущие данные демо-набором
+
+## Стек
+
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- Prisma + SQLite
+- iron-session (вход по паролю)
+- Recharts, motion, next-themes
+
+## Быстрый старт
 
 ```bash
+cp .env.example .env
+# задай APP_PASSWORD и SESSION_SECRET (минимум 32 символа)
+
+npm install
+npx prisma db push
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Открой [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Вход:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Пароль из `APP_PASSWORD`, или
+2. Кнопка **«Войти в демо»** — без пароля, сразу с тестовыми данными
 
-## Learn More
+## Как пользоваться
 
-To learn more about Next.js, take a look at the following resources:
+| Страница             | Что делать                                             |
+| -------------------- | ------------------------------------------------------ |
+| `/`                  | Статистика, «Загрузить демо»                           |
+| `/applications`      | Список, кнопки «Добавить» / «По ссылке» / «Импорт CSV» |
+| `/applications/[id]` | Детали, редактирование, удаление                       |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Способы добавления отклика
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Вручную** — вакансия, компания, дата, статус, зарплата, заметки
+2. **По ссылке** — URL вида `https://hh.ru/vacancy/123456`; приложение пытается подтянуть название и компанию через публичный `GET /vacancies/{id}` (нужен `HH_USER_AGENT`). Если hh не отдаст данные — создай отклик вручную
+3. **CSV** — см. формат ниже
 
-## Deploy on Vercel
+## Статусы
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| id          | Название         |
+| ----------- | ---------------- |
+| `sent`      | Отклик отправлен |
+| `viewed`    | Просмотрено      |
+| `invite`    | Приглашение      |
+| `interview` | Собеседование    |
+| `offer`     | Оффер            |
+| `reject`    | Отказ            |
+| `archived`  | В архиве         |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## CSV
+
+Обязательные колонки: `vacancyName`, `employerName`, `appliedAt`, `status`.
+
+```csv
+vacancyName,employerName,appliedAt,status,vacancyUrl,areaName,isRemote,salaryFrom,salaryTo,notes
+Frontend React,Яндекс,2026-07-01,invite,https://hh.ru/vacancy/123,Москва,250000,350000,
+Middle Frontend,Тинькофф,2026-07-05,sent,https://hh.ru/vacancy/456,Москва,220000,300000,Жду ответ
+```
+
+`appliedAt` — дата в формате, понятном `Date` (например `2026-07-01` или ISO).  
+`status` — один из id из таблицы выше.
+
+## Переменные окружения
+
+| Переменная       | Описание                                                                       |
+| ---------------- | ------------------------------------------------------------------------------ |
+| `APP_PASSWORD`   | Пароль входа                                                                   |
+| `SESSION_SECRET` | Секрет cookie-сессии (минимум 32 символа)                                      |
+| `DATABASE_URL`   | SQLite, по умолчанию `file:./dev.db`                                           |
+| `HH_USER_AGENT`  | User-Agent для публичного API вакансий, вида `HhTracker/1.0 (you@example.com)` |
+
+Пример — [`.env.example`](.env.example).
+
+## Структура проекта
+
+```
+hh-tracker/
+  prisma/           # schema, seed
+  src/
+    app/            # страницы, API routes
+    components/     # UI, графики, формы, тема
+    lib/            # db, session, stats, статусы, vacancy helper
+  middleware.ts     # защита маршрутов сессией
+```
+
+## Ограничения
+
+- Нет автозагрузки списка откликов из личного кабинета hh
+- Публичный запрос вакансии по URL может вернуть ошибку (антибот / лимиты) — ручной ввод и CSV работают всегда
+- Данные только локально в SQLite (`prisma/dev.db`), приложение рассчитано на одного пользователя
