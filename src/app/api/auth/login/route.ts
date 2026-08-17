@@ -1,4 +1,4 @@
-// POST /api/auth/login — проверка APP_PASSWORD и создание сессии
+// POST /api/auth/login — verify APP_PASSWORD and create a session
 import { NextRequest, NextResponse } from 'next/server';
 import { getOrCreateLocalUser } from '@/lib/auth';
 import { getSession } from '@/lib/session';

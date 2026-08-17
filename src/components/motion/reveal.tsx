@@ -1,6 +1,6 @@
 'use client';
 
-// Появление секции при скролле во viewport (once)
+// Reveal a section when it scrolls into view (once)
 import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
 import type { ReactNode } from 'react';
 

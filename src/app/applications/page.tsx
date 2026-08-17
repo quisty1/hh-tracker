@@ -1,4 +1,4 @@
-// SSR-список откликов + список компаний для фильтра
+// SSR applications list + company list for the filter
 import { redirect } from 'next/navigation';
 import { AppHeader } from '@/components/app-header';
 import { ApplicationsActions } from '@/components/applications-actions';
@@ -28,7 +28,7 @@ export default async function ApplicationsPage() {
     orderBy: { appliedAt: 'desc' },
   });
 
-  // Поля для клиентской таблицы (даты — ISO-строки)
+  // Fields for the client table (dates as ISO strings)
   const rows: ApplicationRow[] = applications.map((app) => ({
     id: app.id,
     vacancyName: app.vacancyName,

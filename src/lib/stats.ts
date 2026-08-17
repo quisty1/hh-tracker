@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db';
 import { statusLabel } from '@/lib/statuses';
 
-// Индексы совпадают с Date.getDay(): 0 = Вс … 6 = Сб
+// Indexes match Date.getDay(): 0 = Sun … 6 = Sat
 const DAY_NAMES = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
 function startOfDay(date: Date): Date {
@@ -16,7 +16,7 @@ function daysAgo(n: number): Date {
   return d;
 }
 
-// Агрегаты дашборда для пользователя
+// Dashboard aggregates for a user
 export async function getDashboardStats(userId: number) {
   const applications = await prisma.application.findMany({
     where: { userId },
@@ -35,14 +35,14 @@ export async function getDashboardStats(userId: number) {
     applications.map((a) => a.employerName).filter(Boolean),
   );
 
-  // «Позитивные» статусы для KPI приглашений
+  // "Positive" statuses for the invitations KPI
   const invitationLike = applications.filter((a) =>
     ['invite', 'interview', 'offer'].includes(a.status),
   ).length;
 
   const discardLike = applications.filter((a) => a.status === 'reject').length;
 
-  // Заполняем все дни окна заранее, чтобы на графике не было дыр
+  // Pre-fill every day in the window so the chart has no gaps
   const byDayMap = new Map<string, number>();
   for (let i = 29; i >= 0; i -= 1) {
     const d = daysAgo(i);
@@ -56,7 +56,7 @@ export async function getDashboardStats(userId: number) {
   }
   const byDay = [...byDayMap.entries()].map(([date, count]) => ({
     date,
-    // MM-DD для подписей оси
+    // MM-DD for axis labels
     label: date.slice(5),
     count,
   }));
@@ -84,7 +84,7 @@ export async function getDashboardStats(userId: number) {
   for (const app of applications) {
     weekdayCounts[app.appliedAt.getDay()] += 1;
   }
-  // Пн→Вс: [1,2,3,4,5,6,0] вместо порядка JS (Вс первым)
+  // Mon→Sun: [1,2,3,4,5,6,0] instead of JS order (Sunday first)
   const byWeekday = [1, 2, 3, 4, 5, 6, 0].map((day) => ({
     name: DAY_NAMES[day],
     count: weekdayCounts[day],

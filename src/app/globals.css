@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* Токены светлой темы */
+/* Light theme tokens */
 :root {
   --background: #efece6;
   --foreground: #1c1917;
@@ -13,7 +13,7 @@
   --chart-axis: #78716c;
 }
 
-/* Токены тёмной темы (класс html.dark) */
+/* Dark theme tokens (html.dark class) */
 .dark {
   --background: #141a22;
   --foreground: #e8eef4;
@@ -26,7 +26,7 @@
   --chart-axis: #94a3b8;
 }
 
-/* Прокидываем токены в Tailwind @theme (bg-background и т.д.) */
+/* Expose tokens to Tailwind @theme (bg-background, etc.) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -57,7 +57,7 @@ body {
     color 0.2s ease;
 }
 
-/* Сегментированный контрол (фильтры таблицы и т.п.) */
+/* Segmented control (table filters, etc.) */
 .seg-control {
   display: inline-flex;
   gap: 2px;

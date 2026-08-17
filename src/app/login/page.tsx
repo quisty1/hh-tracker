@@ -1,4 +1,4 @@
-// Страница входа: если уже залогинен — на дашборд
+// Login page: redirect to the dashboard if already signed in
 import { redirect } from 'next/navigation';
 import { LoginView } from '@/components/login-view';
 import { getSession } from '@/lib/session';

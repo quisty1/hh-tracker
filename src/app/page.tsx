@@ -1,4 +1,4 @@
-// SSR-дашборд: KPI и графики по откликам текущего пользователя
+// SSR dashboard: KPIs and charts for the current user's applications
 import { redirect } from 'next/navigation';
 import { AppHeader } from '@/components/app-header';
 import { DashboardCharts } from '@/components/charts/dashboard-charts';

@@ -1,6 +1,6 @@
 'use client';
 
-// next-themes: класс dark на <html>, тема system по умолчанию
+// next-themes: dark class on <html>, system theme by default
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 

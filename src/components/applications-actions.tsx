@@ -1,6 +1,6 @@
 'use client';
 
-// Кнопки добавления: вручную / URL HH / CSV → соответствующие API
+// Add buttons: manual / HH URL / CSV → matching APIs
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import {
@@ -18,7 +18,7 @@ type Mode = 'manual' | 'url' | 'csv' | null;
 const fieldClass =
   'w-full rounded-md border border-border bg-surface px-3 py-2.5 text-base text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/20';
 
-// datetime-local в локальном часовом поясе (не UTC)
+// datetime-local in the local timezone (not UTC)
 function todayLocal() {
   const d = new Date();
   const off = d.getTimezoneOffset();
@@ -44,7 +44,7 @@ export function ApplicationsActions() {
   const [salaryTo, setSalaryTo] = useState('');
 
   const [url, setUrl] = useState('');
-  // Шаблон CSV с обязательными колонками + опциональные
+  // CSV template with required columns + optional ones
   const [csv, setCsv] = useState(
     'vacancyName,employerName,appliedAt,status,vacancyUrl,areaName,isRemote,salaryFrom,salaryTo,notes\n',
   );

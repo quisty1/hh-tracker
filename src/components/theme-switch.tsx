@@ -1,6 +1,6 @@
 'use client';
 
-// Переключатель light / dark / system
+// Light / dark / system toggle
 import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react';
@@ -13,7 +13,7 @@ const labels: Record<(typeof themes)[number], string> = {
   system: 'Система',
 };
 
-// false на SSR, true после гидрации — без mismatch next-themes
+// false on SSR, true after hydration — avoids a next-themes mismatch
 function useMounted() {
   return useSyncExternalStore(
     () => () => {},

@@ -1,6 +1,6 @@
 'use client';
 
-// Контейнер + дети с каскадной анимацией (staggerChildren)
+// Container + children with staggered animation (staggerChildren)
 import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
 import type { ReactNode } from 'react';
 

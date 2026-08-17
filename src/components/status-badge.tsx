@@ -1,6 +1,6 @@
 'use client';
 
-// Бейдж статуса с цветной точкой
+// Status badge with a colored dot
 import { statusDotClass, statusLabel } from '@/lib/statuses';
 
 type StatusBadgeProps = {

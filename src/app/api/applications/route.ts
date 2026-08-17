@@ -1,4 +1,4 @@
-// POST /api/applications — создание отклика вручную (Zod)
+// POST /api/applications — create an application by hand (Zod)
 import { NextResponse } from 'next/server';
 import { applicationInputSchema, toApplicationData } from '@/lib/applications';
 import { prisma } from '@/lib/db';

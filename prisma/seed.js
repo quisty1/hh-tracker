@@ -1,9 +1,9 @@
-// CLI seed: npm run db:seed (аналог src/lib/demo-seed.ts для runtime API)
+// CLI seed: npm run db:seed (mirrors src/lib/demo-seed.ts for the runtime API)
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// Справочник статусов (для лога; в данные попадают id из MOCK_APPS)
+// Status catalog (for the log; MOCK_APPS rows use these ids)
 const STATUSES = [
   'sent',
   'viewed',
@@ -14,7 +14,7 @@ const STATUSES = [
   'archived',
 ];
 
-// Демо-отклики (дублирует набор в src/lib/demo-seed.ts)
+// Demo applications (duplicates the set in src/lib/demo-seed.ts)
 const MOCK_APPS = [
   {
     vacancyName: 'Frontend Developer (React)',
@@ -738,7 +738,7 @@ function daysAgoDate(days, hour) {
 }
 
 async function main() {
-  // Локальный пользователь инстанса
+  // Local instance user
   const user = await prisma.user.upsert({
     where: { loginKey: 'local' },
     create: {
@@ -750,7 +750,7 @@ async function main() {
     },
   });
 
-  // Полная перезапись откликов пользователя
+  // Full rewrite of the user's applications
   await prisma.application.deleteMany({ where: { userId: user.id } });
 
   for (let i = 0; i < MOCK_APPS.length; i += 1) {

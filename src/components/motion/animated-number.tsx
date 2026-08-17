@@ -1,6 +1,6 @@
 'use client';
 
-// Число с пружинной анимацией счётчика (KPI)
+// Number with a spring counter animation (KPI)
 import {
   motion,
   useMotionValue,
@@ -23,7 +23,7 @@ export function AnimatedNumber({ value, className }: AnimatedNumberProps) {
     damping: 22,
     mass: 0.8,
   });
-  // Округление + ru-локаль для отображения
+  // Round + ru locale for display
   const display = useTransform(spring, (latest) =>
     Math.round(latest).toLocaleString('ru-RU'),
   );

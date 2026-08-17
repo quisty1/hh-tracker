@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    // Логотипы работодателей с CDN hh.ru
+    // Employer logos from the hh.ru CDN
     remotePatterns: [
       { protocol: 'https', hostname: 'hhcdn.ru' },
       { protocol: 'https', hostname: 'img.hhcdn.ru' },

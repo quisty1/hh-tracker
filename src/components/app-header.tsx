@@ -1,6 +1,6 @@
 'use client';
 
-// Шапка: навигация, тема, выход
+// Header: navigation, theme, logout
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'motion/react';
@@ -35,7 +35,7 @@ export function AppHeader({ userName }: AppHeaderProps) {
               item.href === '/'
                 ? pathname === '/'
                 : pathname.startsWith(item.href);
-            // Активный пункт: layoutId-полоска, общая для всей навигации
+            // Active item: shared layoutId underline for the whole nav
             return (
               <Link
                 key={item.href}

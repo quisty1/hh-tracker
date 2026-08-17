@@ -1,6 +1,6 @@
 'use client';
 
-// Графики дашборда (Recharts): дни, статусы, компании, будни
+// Dashboard charts (Recharts): days, statuses, companies, weekdays
 import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react';
 import {
@@ -19,7 +19,7 @@ import {
 } from 'recharts';
 import { Stagger, StaggerItem } from '@/components/motion/stagger';
 
-// Палитры под светлую / тёмную тему
+// Palettes for light / dark theme
 const LIGHT_PALETTE = [
   '#0f766e',
   '#0369a1',
@@ -49,7 +49,7 @@ type ChartData = {
   byWeekday: { name: string; count: number }[];
 };
 
-// false на SSR — Recharts рисуем только после mount
+// false on SSR — render Recharts only after mount
 function useMounted() {
   return useSyncExternalStore(
     () => () => {},
@@ -59,7 +59,7 @@ function useMounted() {
 }
 
 function useChartTheme() {
-  // Цвета осей/палитры под resolvedTheme
+  // Axis/palette colors from resolvedTheme
   const { resolvedTheme } = useTheme();
   const mounted = useMounted();
   const dark = mounted && resolvedTheme === 'dark';

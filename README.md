@@ -1,31 +1,31 @@
 # HH Tracker
 
-Личный трекер откликов на вакансии (в первую очередь [hh.ru](https://hh.ru)): список, статусы, заметки и дашборд со статистикой.
+Personal tracker for job applications (primarily [hh.ru](https://hh.ru)): a list, statuses, notes, and a stats dashboard.
 
-Данные хранятся локально; вакансии можно добавлять вручную, по ссылке или через CSV.
+Data is stored locally; vacancies can be added manually, by URL, or via CSV.
 
-## Возможности
+## Features
 
-- Дашборд: KPI и графики (Recharts)
-- Список откликов с поиском и фильтрами (статус, компания, даты)
-- Карточка отклика: правка статуса, даты, заметок, удаление
-- Добавление: вручную, по ссылке `hh.ru/vacancy/{id}`, импорт CSV
-- Темы: светлая / тёмная / системная
-- **«Войти в демо»** на логине — сразу дашборд с 74 тестовыми откликами
-- **«Загрузить демо»** на дашборде — перезаписывает текущие данные демо-набором
+- Dashboard: KPIs and charts (Recharts)
+- Application list with search and filters (status, company, dates)
+- Application card: edit status, dates, notes, delete
+- Add: manually, by `hh.ru/vacancy/{id}` URL, CSV import
+- Themes: light / dark / system
+- **Enter demo** on the login page — opens the dashboard with 74 sample applications
+- **Load demo** on the dashboard — overwrites current data with the demo set
 
-## Стек
+## Stack
 
 - Next.js (App Router) + TypeScript + Tailwind CSS
 - Prisma + SQLite
-- iron-session (вход по паролю)
+- iron-session (password login)
 - Recharts, motion, next-themes
 
-## Быстрый старт
+## Quick start
 
 ```bash
 cp .env.example .env
-# задай APP_PASSWORD и SESSION_SECRET (минимум 32 символа)
+# set APP_PASSWORD and SESSION_SECRET (at least 32 characters)
 
 npm install
 npx prisma db push
@@ -33,42 +33,42 @@ npm run db:seed
 npm run dev
 ```
 
-Открой [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
-**Вход:**
+**Sign in:**
 
-1. Пароль из `APP_PASSWORD`, или
-2. Кнопка **«Войти в демо»** — без пароля, сразу с тестовыми данными
+1. Password from `APP_PASSWORD`, or
+2. **Enter demo** — no password, with sample data immediately
 
-## Как пользоваться
+## How to use
 
-| Страница             | Что делать                                             |
-| -------------------- | ------------------------------------------------------ |
-| `/`                  | Статистика, «Загрузить демо»                           |
-| `/applications`      | Список, кнопки «Добавить» / «По ссылке» / «Импорт CSV» |
-| `/applications/[id]` | Детали, редактирование, удаление                       |
+| Page                 | What to do                                         |
+| -------------------- | -------------------------------------------------- |
+| `/`                  | Stats, Load demo                                   |
+| `/applications`      | List, Add / From URL / Import CSV                  |
+| `/applications/[id]` | Details, edit, delete                              |
 
-### Способы добавления отклика
+### Ways to add an application
 
-1. **Вручную** — вакансия, компания, дата, статус, зарплата, заметки
-2. **По ссылке** — URL вида `https://hh.ru/vacancy/123456`; приложение пытается подтянуть название и компанию через публичный `GET /vacancies/{id}` (нужен `HH_USER_AGENT`). Если hh не отдаст данные — создай отклик вручную
-3. **CSV** — см. формат ниже
+1. **Manually** — vacancy, company, date, status, salary, notes
+2. **By URL** — a URL like `https://hh.ru/vacancy/123456`; the app tries to fetch the title and company via the public `GET /vacancies/{id}` (needs `HH_USER_AGENT`). If hh does not return data, create the application manually
+3. **CSV** — see the format below
 
-## Статусы
+## Statuses
 
-| id          | Название         |
+| id          | Label            |
 | ----------- | ---------------- |
-| `sent`      | Отклик отправлен |
-| `viewed`    | Просмотрено      |
-| `invite`    | Приглашение      |
-| `interview` | Собеседование    |
-| `offer`     | Оффер            |
-| `reject`    | Отказ            |
-| `archived`  | В архиве         |
+| `sent`      | Application sent |
+| `viewed`    | Viewed           |
+| `invite`    | Invitation       |
+| `interview` | Interview        |
+| `offer`     | Offer            |
+| `reject`    | Rejection        |
+| `archived`  | Archived         |
 
 ## CSV
 
-Обязательные колонки: `vacancyName`, `employerName`, `appliedAt`, `status`.
+Required columns: `vacancyName`, `employerName`, `appliedAt`, `status`.
 
 ```csv
 vacancyName,employerName,appliedAt,status,vacancyUrl,areaName,isRemote,salaryFrom,salaryTo,notes
@@ -76,34 +76,34 @@ Frontend React,Яндекс,2026-07-01,invite,https://hh.ru/vacancy/123,Моск
 Middle Frontend,Тинькофф,2026-07-05,sent,https://hh.ru/vacancy/456,Москва,220000,300000,Жду ответ
 ```
 
-`appliedAt` — дата в формате, понятном `Date` (например `2026-07-01` или ISO).  
-`status` — один из id из таблицы выше.
+`appliedAt` — a date `Date` can parse (for example `2026-07-01` or ISO).  
+`status` — one of the ids from the table above.
 
-## Переменные окружения
+## Environment variables
 
-| Переменная       | Описание                                                                       |
+| Variable         | Description                                                                    |
 | ---------------- | ------------------------------------------------------------------------------ |
-| `APP_PASSWORD`   | Пароль входа                                                                   |
-| `SESSION_SECRET` | Секрет cookie-сессии (минимум 32 символа)                                      |
-| `DATABASE_URL`   | SQLite, по умолчанию `file:./dev.db`                                           |
-| `HH_USER_AGENT`  | User-Agent для публичного API вакансий, вида `HhTracker/1.0 (you@example.com)` |
+| `APP_PASSWORD`   | Login password                                                                 |
+| `SESSION_SECRET` | Cookie session secret (at least 32 characters)                                 |
+| `DATABASE_URL`   | SQLite, default `file:./dev.db`                                                |
+| `HH_USER_AGENT`  | User-Agent for the public vacancy API, like `HhTracker/1.0 (you@example.com)`  |
 
-Пример — [`.env.example`](.env.example).
+See [`.env.example`](.env.example).
 
-## Структура проекта
+## Project structure
 
 ```
 hh-tracker/
   prisma/           # schema, seed
   src/
-    app/            # страницы, API routes
-    components/     # UI, графики, формы, тема
-    lib/            # db, session, stats, статусы, vacancy helper
-  middleware.ts     # защита маршрутов сессией
+    app/            # pages, API routes
+    components/     # UI, charts, forms, theme
+    lib/            # db, session, stats, statuses, vacancy helper
+  middleware.ts     # session route protection
 ```
 
-## Ограничения
+## Limitations
 
-- Нет автозагрузки списка откликов из личного кабинета hh
-- Публичный запрос вакансии по URL может вернуть ошибку (антибот / лимиты) — ручной ввод и CSV работают всегда
-- Данные только локально в SQLite (`prisma/dev.db`), приложение рассчитано на одного пользователя
+- No auto-import of applications from a personal hh account
+- A public vacancy request by URL may fail (anti-bot / rate limits) — manual entry and CSV always work
+- Data is local SQLite only (`prisma/dev.db`); the app is designed for a single user

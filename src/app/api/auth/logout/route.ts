@@ -1,4 +1,4 @@
-// POST|GET /api/auth/logout — уничтожение сессии и редирект на /login
+// POST|GET /api/auth/logout — destroy the session and redirect to /login
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 
@@ -9,7 +9,7 @@ function origin() {
 export async function POST() {
   const session = await getSession();
   session.destroy();
-  // 303 — чтобы браузер после POST перешёл GET на /login
+  // 303 — so the browser follows POST with a GET to /login
   return NextResponse.redirect(new URL('/login', origin()), { status: 303 });
 }
 

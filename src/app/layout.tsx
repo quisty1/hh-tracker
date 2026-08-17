@@ -3,13 +3,13 @@ import { Manrope, Source_Serif_4 } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
-// UI-шрифт (CSS-переменная --font-dm-sans для совместимости с токенами)
+// UI font (CSS variable --font-dm-sans for token compatibility)
 const manrope = Manrope({
   variable: '--font-dm-sans',
   subsets: ['latin', 'cyrillic'],
 });
 
-// Display-шрифт для заголовков
+// Display font for headings
 const sourceSerif = Source_Serif_4({
   variable: '--font-source-serif',
   subsets: ['latin', 'cyrillic'],
@@ -29,7 +29,7 @@ export default function RootLayout({
     <html
       lang="ru"
       className={`${manrope.variable} ${sourceSerif.variable} h-full antialiased`}
-      // Тема из localStorage до гидрации — без мигания
+      // Theme from localStorage before hydration — no flash
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">

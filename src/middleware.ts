@@ -3,7 +3,7 @@ import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 
-// Публичные пути без проверки сессии
+// Public paths that skip the session check
 const publicPaths = [
   '/login',
   '/api/auth/login',
@@ -11,7 +11,7 @@ const publicPaths = [
   '/api/auth/demo',
 ];
 
-// Auth gate: редирект на /login, если нет сессии
+// Auth gate: redirect to /login when there is no session
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // response нужен iron-session, чтобы обновить cookie при чтении
+  // iron-session needs response so it can refresh the cookie on read
   const response = NextResponse.next();
   const session = await getIronSession<SessionData>(
     request,
@@ -40,6 +40,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Всё кроме статики Next и favicon
+  // Everything except Next static assets and favicon
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

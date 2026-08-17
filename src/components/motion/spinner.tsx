@@ -1,4 +1,4 @@
-// Индикатор загрузки (spinner)
+// Loading indicator (spinner)
 type SpinnerProps = {
   size?: 'sm' | 'md';
   className?: string;

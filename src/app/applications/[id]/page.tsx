@@ -1,4 +1,4 @@
-// SSR-карточка отклика: форматирование полей + клиентский ApplicationDetailView
+// SSR application card: field formatting + client ApplicationDetailView
 import { notFound, redirect } from 'next/navigation';
 import { AppHeader } from '@/components/app-header';
 import { ApplicationDetailView } from '@/components/application-detail-view';
@@ -71,7 +71,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
 
   const salary = formatSalary(application);
 
-  // areaName вида «Удалённо» не показываем как город — это флаг формата
+  // areaName like "Удалённо" is a format flag, not a city
   const fields = [
     { label: 'Дата отклика', value: formatDate(application.appliedAt) },
     { label: 'Статус', value: statusLabel(application.status) },

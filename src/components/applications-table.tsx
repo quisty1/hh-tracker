@@ -1,6 +1,6 @@
 'use client';
 
-// Таблица откликов: фильтры, сортировка, пагинация на клиенте
+// Applications table: client-side filters, sort, and pagination
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
@@ -9,7 +9,7 @@ import { Reveal } from '@/components/motion/reveal';
 import { StatusBadge } from '@/components/status-badge';
 import { APPLICATION_STATUSES } from '@/lib/statuses';
 
-// Сериализуемая строка для SSR → client
+// Serializable row for SSR → client
 export type ApplicationRow = {
   id: number;
   vacancyName: string | null;
@@ -38,7 +38,7 @@ type SortDir = 'asc' | 'desc';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 30, 50, 100] as const;
 
-// По дате — новые сверху, остальное — A→Z
+// By date — newest first; otherwise A→Z
 function initialSortDir(key: SortKey): SortDir {
   return key === 'appliedAt' ? 'desc' : 'asc';
 }
@@ -46,7 +46,7 @@ function initialSortDir(key: SortKey): SortDir {
 const fieldClass =
   'rounded-md border border-border bg-surface px-3 py-2.5 text-base text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20';
 
-// Старые данные: удалёнка могла храниться в areaName
+// Legacy data: remote work may have been stored in areaName
 function isRemoteLabel(areaName: string | null) {
   return areaName != null && /^удал/i.test(areaName.trim());
 }

@@ -1,4 +1,4 @@
-// POST /api/applications/from-url — создать отклик из ссылки HH через api.hh.ru
+// POST /api/applications/from-url — create an application from an HH URL via api.hh.ru
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import {
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     const app = await prisma.application.create({
       data: {
         userId: session.userId,
-        // Дедуп по вакансии HH для пользователя
+        // Dedupe by HH vacancy for this user
         externalId: `vacancy-${vacancy.vacancyId}`,
         vacancyId: vacancy.vacancyId,
         vacancyName: vacancy.vacancyName,

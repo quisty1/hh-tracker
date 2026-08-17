@@ -1,6 +1,6 @@
 'use client';
 
-// Форма входа: пароль или демо-режим
+// Login form: password or demo mode
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { ClearableInput } from '@/components/clearable-field';
@@ -44,7 +44,7 @@ export function LoginView() {
   }
 
   function onDemo() {
-    // Вход без пароля + демо-данные
+    // Passwordless login + demo data
     setError(null);
     startTransition(async () => {
       try {

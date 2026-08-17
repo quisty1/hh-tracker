@@ -1,6 +1,6 @@
 'use client';
 
-// Появление/исчезновение блока с opacity + сдвиг по Y
+// Fade a block in/out with opacity + Y shift
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { ReactNode } from 'react';
 

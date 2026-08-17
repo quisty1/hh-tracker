@@ -1,4 +1,4 @@
-// PATCH|DELETE /api/applications/[id] — обновление (merge с existing) и удаление
+// PATCH|DELETE /api/applications/[id] — update (merge with existing) and delete
 import { NextResponse } from 'next/server';
 import {
   applicationPatchSchema,
@@ -47,7 +47,7 @@ export async function PATCH(request: Request, context: Ctx) {
   const p = parsed.data;
 
   try {
-    // Partial patch: undefined оставляем как existing, затем прогоняем через toApplicationData
+    // Partial patch: keep existing for undefined, then run through toApplicationData
     const data = toApplicationData(
       {
         vacancyName:
@@ -83,7 +83,7 @@ export async function PATCH(request: Request, context: Ctx) {
       session.userId,
     );
 
-    // userId из data не обновляем
+    // Do not update userId from the payload
     const { userId: _userId, ...update } = data;
     const app = await prisma.application.update({
       where: { id: appId },

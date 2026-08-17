@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db';
 
-// Демо-набор откликов для /api/auth/demo и /api/demo/seed
-// (похожий набор есть в prisma/seed.js для CLI `db:seed`)
+// Demo applications for /api/auth/demo and /api/demo/seed
+// (a similar set lives in prisma/seed.js for CLI `db:seed`)
 const MOCK_APPS = [
   {
     vacancyName: 'Frontend Developer (React)',
@@ -728,12 +728,12 @@ const MOCK_APPS = [
 function daysAgoDate(days: number, hour: number) {
   const d = new Date();
   d.setDate(d.getDate() - days);
-  // Небольшой разброс минут, чтобы даты не совпадали секунда в секунду
+  // Small minute jitter so timestamps are not identical to the second
   d.setHours(hour, 15 + (days % 40), 0, 0);
   return d;
 }
 
-// Перезаписывает все отклики пользователя демо-данными
+// Replaces all of the user's applications with demo data
 export async function seedDemoApplications(userId: number) {
   await prisma.application.deleteMany({ where: { userId } });
 

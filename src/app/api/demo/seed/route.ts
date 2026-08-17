@@ -1,4 +1,4 @@
-// POST /api/demo/seed — перезапись откликов текущего пользователя демо-набором
+// POST /api/demo/seed — replace the current user's applications with the demo set
 import { NextResponse } from 'next/server';
 import { seedDemoApplications } from '@/lib/demo-seed';
 import { requireSession } from '@/lib/session';

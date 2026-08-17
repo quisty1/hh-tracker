@@ -1,6 +1,6 @@
 'use client';
 
-// Пустое состояние дашборда при нуле откликов
+// Empty dashboard state when there are no applications
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
 import { Reveal } from '@/components/motion/reveal';

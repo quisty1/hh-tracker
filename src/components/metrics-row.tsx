@@ -1,6 +1,6 @@
 'use client';
 
-// Ряд KPI-метрик дашборда
+// Dashboard KPI metrics row
 import { AnimatedNumber } from '@/components/motion/animated-number';
 import { Stagger, StaggerItem } from '@/components/motion/stagger';
 

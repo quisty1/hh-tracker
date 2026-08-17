@@ -1,4 +1,4 @@
-// Справочник статусов отклика (id в БД / name в UI)
+// Application status catalog (id in DB / name in UI)
 export const APPLICATION_STATUSES = [
   { id: 'sent', name: 'Отклик отправлен' },
   { id: 'viewed', name: 'Просмотрено' },
@@ -21,7 +21,7 @@ export function statusLabel(id: string): string {
   return APPLICATION_STATUSES.find((s) => s.id === id)?.name ?? id;
 }
 
-// Цвет точки бейджа статуса
+// Status badge dot color
 export const STATUS_DOT_CLASS: Record<ApplicationStatusId, string> = {
   sent: 'bg-muted',
   viewed: 'bg-sky-500/80',

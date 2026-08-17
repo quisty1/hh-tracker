@@ -1,4 +1,4 @@
-// POST /api/auth/demo — вход без пароля: seed демо-данных + сессия
+// POST /api/auth/demo — passwordless login: seed demo data + session
 import { NextResponse } from 'next/server';
 import { getOrCreateLocalUser } from '@/lib/auth';
 import { seedDemoApplications } from '@/lib/demo-seed';
@@ -12,7 +12,7 @@ export async function POST() {
       where: { id: user.id },
       data: { name: 'Демо Пользователь' },
     });
-    // Перезаписывает все отклики пользователя
+    // Replaces all of the user's applications
     await seedDemoApplications(user.id);
 
     const session = await getSession();

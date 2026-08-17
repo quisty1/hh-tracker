@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Один локальный пользователь на инстанс (loginKey = "local")
+// One local user per instance (loginKey = "local")
 model User {
   id           Int           @id @default(autoincrement())
   loginKey     String        @unique
@@ -17,15 +17,15 @@ model User {
   applications Application[]
 }
 
-// Отклик на вакансию (ручной ввод, from-url или CSV-импорт)
+// Job application (manual entry, from-url, or CSV import)
 model Application {
   id              Int      @id @default(autoincrement())
   userId          Int
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Стабильный ключ дедупа (vacancy-{id}, demo-N, csv-…)
+  // Stable dedupe key (vacancy-{id}, demo-N, csv-…)
   externalId      String?
-  // ID вакансии на HH (может отсутствовать при ручном вводе)
+  // HH vacancy ID (may be missing for manual entry)
   vacancyId       String?
   vacancyName     String?
   vacancyUrl      String?
@@ -35,15 +35,15 @@ model Application {
   employerLogoUrl String?
 
   areaName        String?
-  // true = удалённая работа (не путать с areaName)
+  // true = remote work (not to be confused with areaName)
   isRemote        Boolean  @default(false)
   salaryFrom      Int?
   salaryTo        Int?
   salaryCurrency  String?
-  // true = до вычета НДФЛ
+  // true = before income tax (gross)
   salaryGross     Boolean?
 
-  // id из APPLICATION_STATUSES
+  // id from APPLICATION_STATUSES
   status          String
   appliedAt       DateTime
   notes           String?
@@ -51,7 +51,7 @@ model Application {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  // Один externalId на пользователя (null допустим несколько раз в SQLite)
+  // One externalId per user (multiple nulls are allowed in SQLite)
   @@unique([userId, externalId])
   @@index([userId, appliedAt])
   @@index([employerName])

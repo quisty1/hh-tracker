@@ -1,6 +1,6 @@
 'use client';
 
-// Карточка отклика: просмотр / редактирование (PATCH) / удаление (DELETE)
+// Application card: view / edit (PATCH) / delete (DELETE)
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

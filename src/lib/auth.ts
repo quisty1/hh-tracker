@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db';
 
-// Один пользователь на инстанс с ключом loginKey = 'local'
+// One user per instance, keyed by loginKey = 'local'
 export async function getOrCreateLocalUser() {
   return prisma.user.upsert({
     where: { loginKey: 'local' },

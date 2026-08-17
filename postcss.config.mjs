@@ -1,4 +1,4 @@
-// Tailwind CSS v4: плагин PostCSS, тема и токены — в src/app/globals.css
+// Tailwind CSS v4: PostCSS plugin; theme and tokens live in src/app/globals.css
 const config = {
   plugins: {
     '@tailwindcss/postcss': {},

@@ -1,4 +1,4 @@
-// Клиент HH API: разбор URL вакансии и загрузка превью для создания отклика
+// HH API client: parse vacancy URL and fetch a preview for creating an application
 
 export class VacancyFetchError extends Error {
   constructor(
@@ -10,7 +10,7 @@ export class VacancyFetchError extends Error {
   }
 }
 
-// Чистый id или фрагмент /vacancy/{id} из URL hh.ru
+// Bare id or /vacancy/{id} fragment from a hh.ru URL
 export function extractVacancyId(urlOrId: string): string | null {
   const trimmed = urlOrId.trim();
   if (/^\d+$/.test(trimmed)) return trimmed;
@@ -20,7 +20,7 @@ export function extractVacancyId(urlOrId: string): string | null {
     const match = url.pathname.match(/\/vacancy\/(\d+)/);
     return match?.[1] ?? null;
   } catch {
-    // Невалидный URL — ищем id в сырой строке
+    // Invalid URL — look for an id in the raw string
     const match = trimmed.match(/vacancy\/(\d+)/);
     return match?.[1] ?? null;
   }
@@ -41,7 +41,7 @@ export type VacancyPreview = {
   salaryGross: boolean | null;
 };
 
-// Урезанный ответ GET /vacancies/{id}
+// Trimmed GET /vacancies/{id} response
 type HhVacancyResponse = {
   id: string;
   name?: string;
@@ -66,7 +66,7 @@ type HhVacancyResponse = {
   } | null;
 };
 
-// Удалёнка: schedule.remote или work_format REMOTE / «удал…»
+// Remote: schedule.remote or work_format REMOTE / "удал…"
 function detectIsRemote(data: HhVacancyResponse): boolean {
   if (data.schedule?.id === 'remote') return true;
   if (
@@ -83,7 +83,7 @@ function detectIsRemote(data: HhVacancyResponse): boolean {
 export async function fetchVacancyById(
   vacancyId: string,
 ): Promise<VacancyPreview> {
-  // HH требует идентифицирующий User-Agent (и заголовок HHUserAgent)
+  // HH requires an identifying User-Agent (and HHUserAgent header)
   const userAgent =
     process.env.HH_USER_AGENT ?? 'HhTracker/1.0 (local@example.com)';
 
@@ -93,7 +93,7 @@ export async function fetchVacancyById(
       HHUserAgent: userAgent,
       Accept: 'application/json',
     },
-    // Без кеша Next — всегда свежие данные вакансии
+    // No Next cache — always fetch fresh vacancy data
     next: { revalidate: 0 },
   });
 
@@ -114,7 +114,7 @@ export async function fetchVacancyById(
     vacancyUrl: data.alternate_url ?? `https://hh.ru/vacancy/${data.id}`,
     employerId: employer?.id ? String(employer.id) : null,
     employerName: employer?.name ?? null,
-    // Предпочитаем маленький логотип для таблицы
+    // Prefer the small logo for the table
     employerLogoUrl:
       employer?.logo_urls?.['90'] ??
       employer?.logo_urls?.['240'] ??

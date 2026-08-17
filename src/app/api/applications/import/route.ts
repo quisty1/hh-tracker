@@ -1,10 +1,10 @@
-// POST /api/applications/import — CSV-импорт (файл или JSON { csv })
+// POST /api/applications/import — CSV import (file or JSON { csv })
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { isValidStatus } from '@/lib/statuses';
 import { requireSession } from '@/lib/session';
 
-// Простой CSV-парсер: кавычки, "" как escape, разделитель запятая
+// Simple CSV parser: quotes, "" as escape, comma delimiter
 function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
   const header = rows[0].map((h) => h.trim());
   const idx = (name: string) => header.indexOf(name);
 
-  // Обязательные колонки в первой строке
+  // Required columns in the header row
   const required = ['vacancyName', 'employerName', 'appliedAt', 'status'];
   for (const col of required) {
     if (idx(col) === -1) {
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
           salaryTo: salaryToRaw ? Number(salaryToRaw) : null,
           salaryCurrency: salaryFromRaw || salaryToRaw ? 'RUR' : null,
           notes: get('notes') || null,
-          // Без колонки — уникальный ключ на строку импорта
+          // No column — unique key per import row
           externalId: get('externalId') || `csv-${Date.now()}-${i}`,
         },
       });

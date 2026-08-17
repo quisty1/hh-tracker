@@ -1,6 +1,6 @@
 'use client';
 
-// Модалка: Escape, lock scroll; ConfirmModal — да/нет
+// Modal: Escape, lock scroll; ConfirmModal — yes/no
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useEffect, type ReactNode } from 'react';
 import { Spinner } from '@/components/motion/spinner';
@@ -29,7 +29,7 @@ export function Modal({
       if (e.key === 'Escape') onClose();
     }
 
-    // Блокируем скролл фона на время открытия
+    // Lock background scroll while open
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
@@ -88,7 +88,7 @@ type ConfirmModalProps = {
   pending?: boolean;
 };
 
-// Диалог подтверждения опасного действия
+// Confirm dialog for a destructive action
 export function ConfirmModal({
   open,
   onClose,

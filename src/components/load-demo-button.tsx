@@ -1,6 +1,6 @@
 'use client';
 
-// Кнопка «Загрузить демо» → POST /api/demo/seed (с подтверждением)
+// "Load demo" button → POST /api/demo/seed (with confirmation)
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { FadeIn } from '@/components/motion/fade-in';

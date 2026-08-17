@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { isValidStatus, type ApplicationStatusId } from '@/lib/statuses';
 
-// Статус из справочника APPLICATION_STATUSES
+// Status from the APPLICATION_STATUSES catalog
 const statusSchema = z
   .string()
   .refine(isValidStatus, 'Неизвестный статус')
   .transform((v) => v as ApplicationStatusId);
 
-// Пустая строка → null; иначе только http(s) URL
+// Empty string → null; otherwise http(s) URLs only
 const optionalUrl = z
   .string()
   .trim()
@@ -18,7 +18,7 @@ const optionalUrl = z
     message: 'URL должен начинаться с http(s)://',
   });
 
-// Полная схема создания отклика (POST /api/applications)
+// Full create-application schema (POST /api/applications)
 export const applicationInputSchema = z.object({
   vacancyName: z.string().trim().max(300).optional().nullable(),
   vacancyUrl: optionalUrl,
@@ -35,11 +35,11 @@ export const applicationInputSchema = z.object({
   status: statusSchema,
   appliedAt: z.string().min(1),
   notes: z.string().trim().max(5000).optional().nullable(),
-  // Уникален в паре с userId — защита от дублей при импорте/from-url
+  // Unique together with userId — guards against import/from-url duplicates
   externalId: z.string().trim().optional().nullable(),
 });
 
-// Все поля опциональны для PATCH
+// All fields optional for PATCH
 export const applicationPatchSchema = applicationInputSchema.partial();
 
 export type ApplicationInput = z.infer<typeof applicationInputSchema>;
@@ -47,19 +47,19 @@ export type ApplicationInput = z.infer<typeof applicationInputSchema>;
 export function parseAppliedAt(value: string): Date {
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) {
-    throw new Error('Некорректная дата отклика');
+    throw new Error('Invalid application date');
   }
   return d;
 }
 
 export function asStatus(value: string): ApplicationStatusId {
   if (!isValidStatus(value)) {
-    throw new Error('Неизвестный статус');
+    throw new Error('Unknown status');
   }
   return value;
 }
 
-// Пустые строки → null; isRemote по умолчанию false
+// Empty strings → null; isRemote defaults to false
 export function toApplicationData(input: ApplicationInput, userId: number) {
   return {
     userId,

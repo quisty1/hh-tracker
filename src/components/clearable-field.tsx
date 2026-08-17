@@ -1,6 +1,6 @@
 'use client';
 
-// Input / textarea с кнопкой очистки значения
+// Input / textarea with a clear-value button
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 

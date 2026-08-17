@@ -1,6 +1,6 @@
 'use client';
 
-// Кнопка / ссылка с лёгким scale на hover и tap
+// Button / link with a light scale on hover and tap
 import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
 import type { ReactNode } from 'react';
 
